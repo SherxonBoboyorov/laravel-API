@@ -13,10 +13,7 @@ class SliderController extends Controller
     public function index()
     {
         $sliders = Slider::all();
-        return [
-            "status" => 1,
-            "data" => $sliders
-        ];
+        return response()->json(["data" => $sliders]);
     }
 
     /**
@@ -32,7 +29,6 @@ class SliderController extends Controller
      */
     public function store(Request $request)
     {
-
         $data = $request->all();
         $upload = new Slider();
         $upload->image = $data['image']->store('uploads/images', 'public');
@@ -45,22 +41,18 @@ class SliderController extends Controller
         $upload->link = $data['link'];
         $upload->save($data);
 
-        return [
+        return response()->json([
             "status" => 'success',
             "data" => $upload
-        ];
+        ], 200);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Slider $slider)
     {
-        $slider = Slider::find($id);
-        return [
-            "status" => 'success',
-            "data" => $slider
-        ];
+       return $slider;
     }
 
     /**
@@ -68,11 +60,7 @@ class SliderController extends Controller
      */
     public function edit(string $id)
     {
-        $slider = Slider::find($id);
-        return [
-            "status" => 'success',
-            "data" => $slider
-        ];
+       //
     }
 
     /**
@@ -93,10 +81,10 @@ class SliderController extends Controller
         $upload->link = $data['link'];
         $upload->save($data);
 
-        return [
-            "status" => 'success',
-            "data" => $upload
-        ];
+        return response()->json([
+           "status" => 'success',
+              "data" => $upload
+        ], 200);
     }
 
     /**
@@ -106,9 +94,9 @@ class SliderController extends Controller
     {
         $slider = Slider::find($id);
         $slider->delete();
-        return [
+        return response()->json([
             "status" => 'success',
             "data" => $slider
-        ];
+        ], 200);
     }
 }
